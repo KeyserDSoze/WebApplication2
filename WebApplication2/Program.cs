@@ -1,3 +1,4 @@
+using WebApplication2.Middlewares;
 using WebApplication2.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,7 @@ builder.Services.AddSingleton<SingletonService>();
 builder.Services.AddSingleton<NoAddedService>();
 builder.Services.AddScoped<ScopedService>();
 builder.Services.AddTransient<ITransientService, TransientService>();
+builder.Services.AddTransient<DefaultMiddleware>();
 
 var app = builder.Build();
 
@@ -25,6 +27,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseMiddleware<DefaultMiddleware>();
 app.UseAuthorization();
 
 app.MapControllers();
